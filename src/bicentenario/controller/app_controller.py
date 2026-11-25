@@ -9,7 +9,6 @@ from bicentenario.errors import InvalidStateError
 from bicentenario.io.loader import load_and_validate
 from bicentenario.io.records import PipeRecord, RawDataset, ValidationReport
 from bicentenario.io.validators import SimulationParams, validate_pipe_query
-from bicentenario.view.demo_data import DemoHistory
 from bicentenario.view.graph_layout import layered_layout
 
 
@@ -28,9 +27,7 @@ class AppController:
     def load(self, path: str | Path) -> ValidationReport:
         """Carga y valida el archivo (o carpeta de CSV).
         Si el informe trae errores, los datos cargados antes se descartan para
-        no simular con datos a medias (``loaded`` pasa a ser False). Lanza
-        ``DataLoadError`` si el archivo no se puede leer; en ese caso tampoco se
-        conservan los datos anteriores (la ventana también vacía el grafo).
+        no simular con datos a medias (``loaded`` pasa a ser False).
         """
         self.dataset, self.report, self.layout, self.paths, self._pipes_by_id = None, None, {}, {}, {}
         dataset, report = load_and_validate(path)
@@ -63,11 +60,9 @@ class AppController:
                 for s in dataset.scenarios]
 
     def run_simulation(self, scenario_id: str, params: SimulationParams):
-        """devuelve un historial de demostracion (no es una simulación real).
-
-        Remplazamos por la simulacion de la Persona B, por ejemplo:
-            return Simulator(self.graph).run(scenario, params.duration_min, params.step_min)
+        """Ejecuta la simulación y devuelve su historial.
         """
-        dataset = self._require_loaded()
-        scenario = dataset.scenario_by_id()[scenario_id]
-        return DemoHistory(dataset.pipes, self.layout, scenario.intensity_mm_h, params.n_steps)
+        self._require_loaded()
+        raise InvalidStateError(
+            "La simulación todavía no está conectada: falta integrar el simulador. "
+            "Mientras tanto solo se puede ver y consultar la red.")

@@ -29,7 +29,7 @@ from bicentenario.io.records import (
 Sheet = namedtuple("Sheet", ["title", "rows"])
 
 # --------------------------------------------------------------------------
-# Nombres aceptados (ya "normalizados" con _key) para hojas y columnas
+# Nombres aceptados (ya normalizados con _key) para hojas y columnas
 # --------------------------------------------------------------------------
 _SHEET_ALIASES = {
     "sources": {"sources", "source", "fuentes", "fuente"},

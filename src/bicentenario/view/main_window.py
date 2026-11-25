@@ -26,7 +26,7 @@ from bicentenario.view.panels.legend import LegendPanel
 from bicentenario.view.panels.pipe_info import PipeInfoPanel
 from bicentenario.view.panels.summary import SummaryPanel
 
-DEMO_MODE = True
+DEMO_MODE = False       # True solo si se vuelve a usar un historial de demostración (ver AppController)
 DEMO_NOTICE = "DEMOSTRACIÓN: los porcentajes son inventados para probar la interfaz, NO son resultados reales."
 PLAYBACK_INTERVAL_MS = 250
 
