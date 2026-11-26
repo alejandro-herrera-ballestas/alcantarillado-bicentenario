@@ -1,4 +1,4 @@
-"""Estado instantáneo e historial de la simulación (
+"""Estado instantáneo e historial de la simulación 
 
 Define:
 * :class:`PipeState` / :class:`NodeState` — estado de una tubería y de un pozo
@@ -53,8 +53,8 @@ class PipeState:
             define la utilización (S12d).
         utilization_pct: ``O = Q / Qmax · 100``; puede superar 100 (S12).
         overloaded: ``True`` si el caudal ofrecido excede ``Qmax`` (S12b).
-        excess: Exceso retenido acumulado atribuido a esta tubería (m³); el
-            agua retenida no desaparece del modelo (S12b).
+        excess: Exceso retenido acumulado atribuido a esta tubería, expresado
+            como caudal equivalente (m³/s); no desaparece del modelo (S12b).
     """
 
     pipe_id: str
@@ -79,13 +79,6 @@ class PipeState:
 
         Returns:
             El estado inmutable de la tubería.
-
-        Examples:
-            >>> state = PipeState.from_flow("P1", 0.10, 0.08, excess=12.5)
-            >>> round(state.utilization_pct, 6), state.overloaded, state.excess
-            (125.0, True, 12.5)
-            >>> PipeState.from_flow("P2", 0.06, 0.08).overloaded
-            False
         """
         return cls(
             pipe_id=str(pipe_id),
@@ -103,8 +96,8 @@ class NodeState:
     Attributes:
         node_id: Identificador del nodo.
         inflow: Caudal que llega al nodo en el paso (m³/s).
-        stored: Exceso retenido acumulado en el pozo (m³); no desaparece del
-            modelo y se reintenta evacuar en pasos posteriores (S12b).
+        stored: Exceso retenido acumulado en el pozo, expresado como caudal
+            equivalente (m³/s); se reintenta evacuar en pasos posteriores (S12b).
         is_source: ``True`` si el nodo es una fuente (recibe escorrentía).
         is_sink: ``True`` si el nodo es sumidero: descarga fuera del modelo (S8).
     """
