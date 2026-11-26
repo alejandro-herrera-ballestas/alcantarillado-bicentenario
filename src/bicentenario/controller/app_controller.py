@@ -10,7 +10,7 @@ from bicentenario.io.loader import load_and_validate
 from bicentenario.io.records import PipeRecord, RawDataset, ValidationReport
 from bicentenario.io.validators import SimulationParams, validate_pipe_query
 from bicentenario.view.graph_layout import layered_layout
-
+from bicentenario.model.simulation.simulator import Simulator
 
 class AppController:
     def __init__(self):
@@ -60,9 +60,6 @@ class AppController:
                 for s in dataset.scenarios]
 
     def run_simulation(self, scenario_id: str, params: SimulationParams):
-        """Ejecuta la simulación y devuelve su historial.
-        """
-        self._require_loaded()
-        raise InvalidStateError(
-            "La simulación todavía no está conectada: falta integrar el simulador. "
-            "Mientras tanto solo se puede ver y consultar la red.")
+        """Ejecuta la simulación y devuelve su historial."""
+        dataset = self._require_loaded()
+        return Simulator(dataset, params).run(scenario_id)
